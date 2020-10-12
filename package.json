@@ -5,10 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "ace-builds": "^1.4.12",
     "classnames": "^2.2.6",
     "lodash": "^4.17.19",
     "next": "^9.5.1",
     "react": "^16.13.1",
+    "react-ace": "^9.1.4",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
