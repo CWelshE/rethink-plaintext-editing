@@ -6,9 +6,9 @@ import classNames from 'classnames';
 
 import { listFiles } from '../files';
 
-// Used below, these need to be registered
-import MarkdownEditor from '../MarkdownEditor';
-import PlaintextEditor from '../components/PlaintextEditor';
+// Replaced multiple editors with one instance of ACE that's dynamically
+// assigned file types and highlighting
+import DynamicEditor from '../components/DynamicEditor';
 
 import IconPlaintextSVG from '../public/icon-plaintext.svg';
 import IconMarkdownSVG from '../public/icon-markdown.svg';
@@ -97,12 +97,6 @@ Previewer.propTypes = {
   file: PropTypes.object
 };
 
-// Uncomment keys to register editors for media types
-const REGISTERED_EDITORS = {
-  // "text/plain": PlaintextEditor,
-  // "text/markdown": MarkdownEditor,
-};
-
 function PlaintextFilesChallenge() {
   const [files, setFiles] = useState([]);
   const [activeFile, setActiveFile] = useState(null);
@@ -115,10 +109,17 @@ function PlaintextFilesChallenge() {
   const write = file => {
     console.log('Writing soon... ', file.name);
 
-    // TODO: Write the file to the `files` array
+    // Splice a new files array with the input file, then call setFiles
+    // with the result
+    let thisFiles = files;
+    const filePos = thisFiles.indexOf(
+      thisFiles.find((curFile) => curFile.name == file.name)
+    );
+    thisFiles.splice(filePos, 1, file);
+    setFiles(thisFiles);
   };
 
-  const Editor = activeFile ? REGISTERED_EDITORS[activeFile.type] : null;
+  const Editor = activeFile ? DynamicEditor: null;
 
   return (
     <div className={css.page}>
